@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libs-sources">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../google-api-client-assembly-1.30.2-1.30.2.zip!/google-api-java-client/libs-sources" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="jar://$PROJECT_DIR$/../google-api-client-assembly-1.30.2-1.30.2.zip!/google-api-java-client/libs-sources" recursive="false" />
+  </library>
+</component>
