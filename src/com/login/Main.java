@@ -1,9 +1,11 @@
 package com.login;
 
+
 import com.login.BelminMusicPlayer;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,11 +19,15 @@ public class Main {
     private static BelminMusicPlayer bmp = new BelminMusicPlayer();
     public static void main(String[] args) throws IOException, UnsupportedAudioFileException {
         bmp.addTrack(new File("Idi idi moja vilo.mp3"));
-        bmp.addTrack(new File("Da sutis.mp3"));
-        bmp.addTrack(new File("Prevarena.mp3"));
         bmp.addTrack(new File("Bezobrazno su zelene.mp3"));
+        bmp.addTrack(new File("Da sutis.mp3"));
+        bmp.addTrack(new File("Deset mladja.mp3"));
+        bmp.addTrack(new File("Ptica bijela.mp3"));
+        bmp.addTrack(new File("Prevarena.mp3"));
         bmp.addTrack(new File("Skote jos te volim.mp3"));
-        bmp.playSong("Idi idi moja vilo");
+        bmp.startPlaylistFromBeggining();
+
+
     }
 
     private static void startProgram() {
@@ -34,7 +40,7 @@ public class Main {
                     startSong();
                     break;
                 case 3:
-                    bmp.startPlaylist();
+                    bmp.startPlaylistFromBeggining();
                     break;
                 case 4:
                     downloadSong();

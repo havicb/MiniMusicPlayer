@@ -2,19 +2,16 @@ package com.login;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
-
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.beans.Encoder;
-import javax.sound.sampled.AudioSystem;
 import java.lang.System;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class BelminMusicPlayer {
     private List<Song> playlist;
@@ -46,7 +43,7 @@ public class BelminMusicPlayer {
         return false;
         }
             try {
-                setUpPlayer(location);
+                player = new Player(location);
                 System.out.println("Playing.." + wantedSong);
                 player.play();
             } catch (JavaLayerException ex) {
@@ -57,44 +54,25 @@ public class BelminMusicPlayer {
     return true;
     }
 
-    public boolean startPlaylist() {
-        if(playlist.isEmpty()) {
+    public void startPlaylistFromBeggining() {
+        if (playlist.isEmpty()) {
             System.out.println("Playlist is empty..");
-            return false;
+            return;
         }
-        Iterator<Song> songIT = playlist.iterator();
-        while(songIT.hasNext()) {
-            Song current = songIT.next();
-        try {
-            setUpPlayer(current.getLocation());
-            System.out.println("Now playing.." + current.getSongName());
-            player.play();
-        }catch(JavaLayerException ex) {
-            System.out.println(ex.toString());
-            return false;
-        }
-        }
-    return true;
+        Iterator<Song> it = playlist.iterator();
+        StartPlaylist pokreniPjesme = new StartPlaylist(it, it.next());
+        pokreniPjesme.start();
     }
 
-    private void setUpPlayer(FileInputStream location) throws JavaLayerException {
-        player = new Player(location);
-    }
-
-    private static void getDurationWithMp3Spi(File file) throws UnsupportedAudioFileException, IOException { // NE RADI SA MP3 FILE-OVIMA
-        AudioFileFormat fileFormat = AudioSystem.getAudioFileFormat(file);
-        if (fileFormat != null) {
-            Map<?, ?> properties = ((AudioFileFormat) fileFormat).properties();
-            String key = "duration";
-            Long microseconds = (Long) properties.get(key);
-            int mili = (int) (microseconds / 1000);
-            int sec = (mili / 1000) % 60;
-            int min = (mili / 1000) / 60;
-            System.out.println("time = " + min + ":" + sec);
-        } else {
-            System.out.println("Usao u else..");
-            throw new UnsupportedAudioFileException();
+    public boolean startPlayListRandom() {
+        Scanner unos = new Scanner(System.in);
+        if(playlist.isEmpty()) {
+            System.out.println("Playlist is empty");
+            return false;
         }
+        StartRandomizedPlayList pokreniPjesme = new StartRandomizedPlayList(this.playlist);
+        pokreniPjesme.start();
+        return true;
     }
 
     private FileInputStream songExistsInPlaylist(String wanted) {
